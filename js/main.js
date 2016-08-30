@@ -90,6 +90,7 @@ $(document).on("keypress", "#searchInput", function (e) {
     interact.searchMovies(movieTitle)
     .then(function (data) {
       $("#searchInput").html("");
+      $("#searchInput").val("");
       let checkImdbid = data.imdbID;
       let duplicateMovie = $(`select[data-imdbid='${checkImdbid}']`).parent(".movie");
       if(duplicateMovie.length) {
