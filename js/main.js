@@ -58,6 +58,13 @@ $(document).on("click", ".switchViewButton", function() {
   $(`${partnerRow}`).removeClass('hidden');
   $(`${partnerRow}`).siblings('.row').addClass('hidden');
 
+  //this toggles the slider to only show when the watched movies button is clicked
+  console.log(this.id);
+  if (this.id === "watchedMoviesButton") {
+    $("#showSlider").toggleClass("hidden");
+    $("#range-slider").slider({});
+  } else $("#showSlider").addClass("hidden");
+
   $(this).siblings('.btn').removeClass('btn-primary');
   $(this).addClass('btn-primary');
 });
@@ -72,6 +79,7 @@ $(document).on("keypress", "#searchInput", function (e) {
     $("#noMovies").remove();
     interact.searchMovies(movieTitle)
     .then(function (data) {
+      $("#searchInput").html("");
       let checkImdbid = data.imdbID;
       let duplicateMovie = $(`select[data-imdbid='${checkImdbid}']`).parent(".movie");
       if(duplicateMovie.length) {
@@ -193,8 +201,8 @@ function loadDom (data) {
 
       if(movie.watched === false) {
         $("#showUnwatchedRow").append(savedMovieTemplate(movie));
-      } else if (movie.userRating === "10") {
-        $("#showFavoritesRow").append(savedMovieTemplate(movie));
+      // } else if (movie.userRating === "10") {
+      //   $("#showFavoritesRow").append(savedMovieTemplate(movie));
       } else if (movie.watched === true) {
         $("#showWatchedRow").append(savedMovieTemplate(movie));
       }
