@@ -61,11 +61,22 @@ $(document).on("click", ".switchViewButton", function() {
   console.log(this.id);
   if (this.id === "watchedMoviesButton") {
     $("#showSlider").toggleClass("hidden");
-    $("#range-slider").slider({});
+
+    let sliderValue = $("#sliderValue").val();
+    console.log("value of slider: ", sliderValue);
+
+
   } else $("#showSlider").addClass("hidden");
 
   $(this).siblings('.btn').removeClass('btn-primary');
   $(this).addClass('btn-primary');
+});
+
+//this event listener is on the slider and will call the function to populate the dom
+$(document).on("click", "#sliderValue", function() {
+  console.log("you clicked the slider");
+  console.log("value of slider: ", sliderValue);
+  clearAndReload();
 });
 
 // THIS IS THE FUNCTION TO SEARCH FOR A MOVIE AND ADD IT TO THE DOM
@@ -180,6 +191,8 @@ function clearAndReload () {
 
 //LOADS SAVED SONGS TO DOM
 function loadDom (data) {
+  let sliderValue = $("#sliderValue").val();
+  console.log("value of slider: ", sliderValue);
   var dataArray = [];
   var imdbArray = [];
   $.each(data, function(key, value) {
@@ -202,7 +215,8 @@ function loadDom (data) {
         $("#showUnwatchedRow").append(savedMovieTemplate(movie));
       // } else if (movie.userRating === "10") {
       //   $("#showFavoritesRow").append(savedMovieTemplate(movie));
-      } else if (movie.watched === true) {
+      } else if (movie.watched === true && movie.userRating === sliderValue) {
+      // } else if (movie.watched === true) {
         $("#showWatchedRow").append(savedMovieTemplate(movie));
       }
       console.log(movie);
