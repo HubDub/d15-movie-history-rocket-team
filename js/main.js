@@ -73,6 +73,7 @@ $(document).on("click", ".switchViewButton", function() {
 
 //this event listener is on the slider and will call the function to populate the dom
 $(document).on("click", "#sliderValue", function() {
+  let sliderValue = $("#sliderValue").val();
   console.log("you clicked the slider");
   console.log("value of slider: ", sliderValue);
   clearAndReload();
