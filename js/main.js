@@ -65,7 +65,6 @@ $(document).on("click", ".switchViewButton", function() {
     let sliderValue = $("#sliderValue").val();
     console.log("value of slider: ", sliderValue);
 
-
   } else $("#showSlider").addClass("hidden");
 
   $(this).siblings('.btn').removeClass('btn-primary');
@@ -91,6 +90,7 @@ $(document).on("keypress", "#searchInput", function (e) {
     interact.searchMovies(movieTitle)
     .then(function (data) {
       $("#searchInput").html("");
+      $("#searchInput").val("");
       let checkImdbid = data.imdbID;
       let duplicateMovie = $(`select[data-imdbid='${checkImdbid}']`).parent(".movie");
       if(duplicateMovie.length) {
