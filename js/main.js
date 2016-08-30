@@ -60,7 +60,7 @@ $(document).on("click", ".switchViewButton", function() {
   //this toggles the slider to only show when the watched movies button is clicked
   console.log(this.id);
   if (this.id === "watchedMoviesButton") {
-    $("#showSlider").toggleClass("hidden")
+    $("#showSlider").toggleClass("hidden");
   } else $("#showSlider").addClass("hidden");
 
   $(this).siblings('.btn').removeClass('btn-primary');
