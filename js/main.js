@@ -61,8 +61,10 @@ $(document).on("click", ".switchViewButton", function() {
   console.log(this.id);
   if (this.id === "watchedMoviesButton") {
     $("#showSlider").toggleClass("hidden");
+
     let sliderValue = $("#sliderValue").val();
     console.log("value of slider: ", sliderValue);
+
 
   } else $("#showSlider").addClass("hidden");
 
