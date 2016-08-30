@@ -23,6 +23,7 @@ Handlebars.registerHelper("select", function(value, options) {
 $(document).on("click", "#loginButton", function () {
   login()
   .then(function(data) {
+    console.log(data)
     userId = data.user.uid;
     $("#unwatchedMoviesButton, #watchedMoviesButton, #favoritesMoviesButton").removeAttr("disabled");
     $("#showWatchedRow, #showFavoritesRow, #showUnwatchedRow").html("");
@@ -57,8 +58,26 @@ $(document).on("click", ".switchViewButton", function() {
   $(`${partnerRow}`).removeClass('hidden');
   $(`${partnerRow}`).siblings('.row').addClass('hidden');
 
+  //this toggles the slider to only show when the watched movies button is clicked
+  console.log(this.id);
+  if (this.id === "watchedMoviesButton") {
+    $("#showSlider").toggleClass("hidden");
+
+    let sliderValue = $("#sliderValue").val();
+    console.log("value of slider: ", sliderValue);
+
+  } else $("#showSlider").addClass("hidden");
+
   $(this).siblings('.btn').removeClass('btn-primary');
   $(this).addClass('btn-primary');
+});
+
+//this event listener is on the slider and will call the function to populate the dom
+$(document).on("click", "#sliderValue", function() {
+  let sliderValue = $("#sliderValue").val();
+  console.log("you clicked the slider");
+  console.log("value of slider: ", sliderValue);
+  clearAndReload();
 });
 
 // THIS IS THE FUNCTION TO SEARCH FOR A MOVIE AND ADD IT TO THE DOM
@@ -71,6 +90,8 @@ $(document).on("keypress", "#searchInput", function (e) {
     $("#noMovies").remove();
     interact.searchMovies(movieTitle)
     .then(function (data) {
+      $("#searchInput").html("");
+      $("#searchInput").val("");
       let checkImdbid = data.imdbID;
       let duplicateMovie = $(`select[data-imdbid='${checkImdbid}']`).parent(".movie");
       if(duplicateMovie.length) {
@@ -172,6 +193,8 @@ function clearAndReload () {
 
 //LOADS SAVED SONGS TO DOM
 function loadDom (data) {
+  let sliderValue = $("#sliderValue").val();
+  console.log("value of slider: ", sliderValue);
   var dataArray = [];
   var imdbArray = [];
   $.each(data, function(key, value) {
@@ -192,9 +215,10 @@ function loadDom (data) {
 
       if(movie.watched === false) {
         $("#showUnwatchedRow").append(savedMovieTemplate(movie));
-      } else if (movie.userRating === "10") {
-        $("#showFavoritesRow").append(savedMovieTemplate(movie));
-      } else if (movie.watched === true) {
+      // } else if (movie.userRating === "10") {
+      //   $("#showFavoritesRow").append(savedMovieTemplate(movie));
+      } else if (movie.watched === true && movie.userRating === sliderValue) {
+      // } else if (movie.watched === true) {
         $("#showWatchedRow").append(savedMovieTemplate(movie));
       }
       console.log(movie);
